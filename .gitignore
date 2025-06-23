@@ -1,0 +1,35 @@
+# Environment variables
+.env
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# Virtual environment
+venv/
+env/
+
+# IDE
+.vscode/
+.idea/
+
+# Debug files
+debug_*.py
+test_*.py
+testing.py
+
+# Documentation drafts
+*_DRAFT.md
+*_OLD.md
+*_BACKUP.md
+
+# Temporary files
+*.tmp
+*.log
+
+# PDF files
+*.pdf
+*.PDF

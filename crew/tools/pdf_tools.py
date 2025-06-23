@@ -19,9 +19,6 @@ GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 supabase: Client = create_client(SUPABASE_URL, SUPABASE_KEY)
 
 def process_pdf_file(pdf_path: str) -> List[Dict[str, Any]]:
-    """
-    Process a PDF file and return its chunks with metadata
-    """
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"PDF file not found: {pdf_path}")
     
@@ -58,7 +55,6 @@ def process_pdf_file(pdf_path: str) -> List[Dict[str, Any]]:
 
 @retry(stop=stop_after_attempt(3), wait=wait_exponential(multiplier=1, min=4, max=10))
 def get_embedding(text: str, embeddings: GoogleGenerativeAIEmbeddings) -> List[float]:
-
     try:
         return embeddings.embed_query(text)
     except Exception as e:
@@ -66,7 +62,6 @@ def get_embedding(text: str, embeddings: GoogleGenerativeAIEmbeddings) -> List[f
         raise
 
 def embed_and_store_pdf(pdf_path: str) -> str:
-
     try:
         documents = process_pdf_file(pdf_path)
         if not documents:
@@ -81,7 +76,6 @@ def embed_and_store_pdf(pdf_path: str) -> str:
             try:
                 embedding_vector = get_embedding(doc["content"], embeddings)
                 
-                # intefacenya
                 data = {
                     "id": str(uuid.uuid4()),
                     "content": doc["content"],
@@ -107,9 +101,6 @@ def embed_and_store_pdf(pdf_path: str) -> str:
         return f"Error processing {pdf_path}: {str(e)}"
 
 def embed_pdfs_in_directory(directory: str = None) -> str:
-    """
-    Embed all PDFs in the specified directory or current directory
-    """
     if directory is None:
         directory = os.getcwd()
 
@@ -128,11 +119,9 @@ def embed_pdfs_in_directory(directory: str = None) -> str:
     return "\n".join(results)
 
 def update_embeddings_tool(instruction: str) -> str:
-
     instruction = instruction.lower().strip()
     
     if 'embed pdf' in instruction:
-        # Extract filename from instruction
         parts = instruction.split('embed pdf')
         if len(parts) > 1:
             filename = parts[1].strip()

@@ -5,21 +5,17 @@ import os
 import sys
 from dotenv import load_dotenv
 
-# Add parent directory to path for imports
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
 
-# Import tools
 from crew.tools.search_tools.search_engine import smart_search_tool
 from crew.tools.pdf_tools import update_embeddings_tool
 
-# Load environment variables
 load_dotenv()
 GOOGLE_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 def create_agents():
     """Create the two main agents for SLC Assistant System"""
     
-    # Create simplified tools
     search_tool = Tool(
         name="search_tool",
         func=smart_search_tool,
@@ -32,7 +28,6 @@ def create_agents():
         description="Tool for updating PDF embeddings in Supabase database"
     )
     
-    # Agent 1: SLC Assistant Agent (Simplified)
     assistant_agent = Agent(
         role='SLC Assistant Agent',
         goal='Membantu asisten SLC dengan memberikan informasi yang akurat dan natural tentang data asisten, prosedur mengajar, dan prosedur pengawasan ujian',
@@ -57,7 +52,6 @@ def create_agents():
         llm=GoogleGenerativeAI(model="gemini-2.0-flash", temperature=0.9, google_api_key=GOOGLE_API_KEY)
     )
     
-    # Agent 2: Update Embed Supabase Agent  
     embed_agent = Agent(
         role='Update Embed Supabase Agent',
         goal='Mengelola dan memperbarui embeddings PDF di database Supabase untuk memastikan informasi terbaru tersedia',

@@ -23,7 +23,6 @@ except Exception as e:
     print(f"Error connecting to Supabase: {str(e)}")
     raise
 
-# Conversation memory
 conversation_memory = []
 
 def add_to_memory(user_input: str, assistant_response: str):
@@ -77,7 +76,6 @@ def run_interactive_chat():
             
             context = get_conversation_context()
             
-            # untuk membantu gemini memilih agent y
             query_lower = user_input.lower()
             if any(keyword in query_lower for keyword in ['embed', 'update']):
                 task = create_task(embed_agent, user_input, context)
